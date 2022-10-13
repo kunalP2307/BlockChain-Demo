@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "789155970601",
+    "project_id": "blockchaindemo-2faf4",
+    "storage_bucket": "blockchaindemo-2faf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789155970601:android:c196623768f339316d6638",
+        "android_client_info": {
+          "package_name": "com.example.blockchainillustration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789155970601-h4sp7ph2oln46vqgefh099p1qeldjsbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNMvR5TC0x-POvEVNe9spll7Fz6s58k98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "789155970601-h4sp7ph2oln46vqgefh099p1qeldjsbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
