@@ -140,12 +140,12 @@ public class BlockActivity extends AppCompatActivity {
     }
 
     private void bindComponents() {
-        editTextBlockNo = findViewById(R.id.edit_text_block_block_no);
-        editTextNonce = findViewById(R.id.edit_text_block_nonce);
-        editTextData = findViewById(R.id.edit_text_block_data);
-        textViewHash = findViewById(R.id.text_area_block_hash);
-        viewBlock = findViewById(R.id.layout_block);
-        buttonMine = findViewById(R.id.button_block_mine);
+        editTextBlockNo = findViewById(R.id.edit_text_block_block_no_cell);
+        editTextNonce = findViewById(R.id.edit_text_block_nonce_cell);
+        editTextData = findViewById(R.id.edit_text_block_data_cell);
+        textViewHash = findViewById(R.id.text_area_block_hash_cell);
+        viewBlock = findViewById(R.id.layout_block_cell_new);
+        buttonMine = findViewById(R.id.button_block_mine_cell);
         progressBarMining = findViewById(R.id.progress_bar_mining);
     }
 }

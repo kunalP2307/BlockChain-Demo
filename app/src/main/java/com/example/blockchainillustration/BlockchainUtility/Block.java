@@ -5,7 +5,7 @@ public class Block {
     private int nonce;
     private String data;
     private String hash;
-
+    private String prev;
 
     public Block(){
 
@@ -16,6 +16,13 @@ public class Block {
         this.data = data;
     }
 
+    public Block(int blockNo, int nonce, String data, String hash, String prev) {
+        this.blockNo = blockNo;
+        this.nonce = nonce;
+        this.data = data;
+        this.hash = hash;
+        this.prev = prev;
+    }
     public int getBlockNo() {
         return blockNo;
     }
@@ -47,5 +54,14 @@ public class Block {
     public void setHash(String hash) {
         this.hash = hash;
     }
+
+    public String getPrev() {
+        return prev;
+    }
+
+    public void setPrev(String prev) {
+        this.prev = prev;
+    }
+
 
 }
