@@ -92,7 +92,7 @@
                     <EditText
                         android:id="@+id/edit_text_data_block_1"
                         android:layout_width="0dp"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="12dp"
@@ -252,7 +252,7 @@
 
                         android:inputType="textMultiLine"
                         android:padding="10dp"
-                        android:text="1"
+                        android:text="2"
                         android:textColor="#5B5B5B"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -285,7 +285,7 @@
                     <EditText
                         android:id="@+id/edit_text_data_block_2"
                         android:layout_width="0dp"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="12dp"
@@ -445,7 +445,7 @@
 
                         android:inputType="textMultiLine"
                         android:padding="10dp"
-                        android:text="1"
+                        android:text="3"
                         android:textColor="#5B5B5B"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -478,7 +478,7 @@
                     <EditText
                         android:id="@+id/edit_text_data_block_3"
                         android:layout_width="0dp"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="12dp"
@@ -638,7 +638,7 @@
 
                         android:inputType="textMultiLine"
                         android:padding="10dp"
-                        android:text="1"
+                        android:text="4"
                         android:textColor="#5B5B5B"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -671,7 +671,7 @@
                     <EditText
                         android:id="@+id/edit_text_data_block_4"
                         android:layout_width="0dp"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="12dp"
@@ -831,7 +831,7 @@
 
                         android:inputType="textMultiLine"
                         android:padding="10dp"
-                        android:text="1"
+                        android:text="5"
                         android:textColor="#5B5B5B"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -864,7 +864,7 @@
                     <EditText
                         android:id="@+id/edit_text_data_block_5"
                         android:layout_width="0dp"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="12dp"

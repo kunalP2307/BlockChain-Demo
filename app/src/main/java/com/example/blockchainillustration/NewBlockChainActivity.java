@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.blockchainillustration.BlockchainUtility.Block;
+import com.example.blockchainillustration.BlockchainUtility.Miner;
+import com.example.blockchainillustration.BlockchainUtility.SHACalculator;
 
 public class NewBlockChainActivity extends AppCompatActivity implements TextWatcher {
     private static final int CHAIN_SIZE = 5;
-    EditText editTextData1,editTextData2;
+    private static final String GENESIS_PREV_HASH = "0000000000000000000000000000000000000000000000000000000000000000";
     Button buttonMine[];
     EditText editTextBlockNo[],editTextNonce[],editTextData[];
     TextView textViewPrev[],textViewtHash[];
@@ -24,14 +27,9 @@ public class NewBlockChainActivity extends AppCompatActivity implements TextWatc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_block_chain);
-        editTextData1 = findViewById(R.id.edit_text_data_block_5);
-        editTextData2 = findViewById(R.id.edit_text_data_block_5);
-        Toast.makeText(this, editTextData1.getText().toString()+editTextData2.getText().toString(), Toast.LENGTH_SHORT).show();
-        View view = findViewById(R.id.layout_block_cell_5);
-        view.setBackgroundColor(Color.rgb(255, 204, 204));
 
         bindComponents();
-
+        initBlockChain();
     }
 
     private void bindComponents() {
@@ -82,15 +80,52 @@ public class NewBlockChainActivity extends AppCompatActivity implements TextWatc
 
         for(int i=0; i<5; i++){
             int finalI = i;
+            editTextNonce[i].setText(""+i);
             buttonMine[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(NewBlockChainActivity.this, ""+ finalI, Toast.LENGTH_SHORT).show();
+                    mineBlock(finalI);
                 }
             });
             editTextData[i].addTextChangedListener(this);
-            viewBlock[i].setBackgroundColor(Color.rgb(255, 204, 204));
         }
+    }
+
+    private void initBlockChain() {
+        for(int i=0; i<CHAIN_SIZE; i++){
+            Block block = new Block();
+            String data = editTextData[i].getText().toString();
+            String blockNo = editTextBlockNo[i].getText().toString();
+            String prev = textViewPrev[i].getText().toString();
+            block.setBlockNo(Integer.parseInt(blockNo));
+            block.setData(data);
+            Block minedBlock = Miner.mineBlockWithPrev(block,prev);
+            editTextNonce[i].setText(minedBlock.getNonce()+"");
+            textViewtHash[i].setText(minedBlock.getHash());
+            if(i != CHAIN_SIZE-1)
+                textViewPrev[i+1].setText(minedBlock.getHash());
+        }
+    }
+
+    private void mineBlock(int i){
+        Block block = new Block();
+        int blockNo = Integer.parseInt(editTextBlockNo[i].getText().toString());
+        String data = editTextData[i].getText().toString();
+        String prev = textViewPrev[i].getText().toString();
+        block.setBlockNo(blockNo);
+        block.setData(data);
+        Block minedBlock = Miner.mineBlockWithPrev(block,prev);
+        editTextNonce[i].setText(minedBlock.getNonce()+"");
+        textViewtHash[i].setText(minedBlock.getHash());
+        if(i != CHAIN_SIZE-1) {
+            textViewPrev[i + 1].setText(minedBlock.getHash());
+            textChanged(i + 1);
+        }
+        changeMinedStatusToGreen(i);
+    }
+
+    private void changeMinedStatusToGreen(int i){
+        viewBlock[i].setBackgroundColor(Color.rgb(204,255,204));
     }
 
     private void initComponents() {
@@ -104,11 +139,22 @@ public class NewBlockChainActivity extends AppCompatActivity implements TextWatc
     }
 
     private void textChanged(int i){
-        changedMinedStatusOwnwords(i);
+
+        for(int j= i; j<CHAIN_SIZE; j++){
+            String data = editTextData[j].getText().toString();
+            String prev = textViewPrev[j].getText().toString();
+            String newHash = SHACalculator.getSHA256(data+prev);
+            textViewtHash[j].setText(newHash);
+            if(j != CHAIN_SIZE-1)
+                textViewPrev[j+1].setText(newHash);
+        }
+        changedMinedStatusOwnwordsToRed(i);
     }
 
-    private void changedMinedStatusOwnwords(int i){
-
+    private void changedMinedStatusOwnwordsToRed(int i){
+        for(int j=i; j<CHAIN_SIZE; j++){
+            viewBlock[j].setBackgroundColor(Color.rgb(255,204,204));
+        }
     }
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
