@@ -1,6 +1,8 @@
 package com.example.blockchainillustration;
 
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +23,22 @@ public class BCAdapter extends RecyclerView.Adapter<BCAdapter.BlockViewHolder> {
     private List<Block> blockList;
     private final ClickListener clickListener;
 
-    class BlockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class BlockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,TextWatcher{
         EditText blockNo, nonce,data;
         TextView hash,prev;
         View viewBlock;
         Button buttonMine;
         private WeakReference<ClickListener> listenerRef;
-
         BlockViewHolder(View view,ClickListener clickListener) {
             super(view);
             listenerRef = new WeakReference<>(clickListener);
-            blockNo = view.findViewById(R.id.edit_text_block_block_no_cell);
-            nonce = view.findViewById(R.id.edit_text_block_nonce_cell);
-            data = view.findViewById(R.id.edit_text_block_data_cell);
-            hash = view.findViewById(R.id.text_area_block_hash_cell);
+            blockNo = view.findViewById(R.id.edit_text_block_no_block);
+            nonce = view.findViewById(R.id.edit_text_nonce_block);
+            data = view.findViewById(R.id.edit_text_data_block);
+            hash = view.findViewById(R.id.text_area_hash_block_5);
             buttonMine = view.findViewById(R.id.button_block_mine_cell);
-            viewBlock = view.findViewById(R.id.layout_block_cell_new);
-            prev = view.findViewById(R.id.text_area_block_prev_cell);
-            buttonMine.setOnClickListener(this);
+            viewBlock = view.findViewById(R.id.layout_block_cell_1);
+            prev = view.findViewById(R.id.text_area_prev_block_5);
         }
 
         @Override
@@ -49,6 +49,22 @@ public class BCAdapter extends RecyclerView.Adapter<BCAdapter.BlockViewHolder> {
                 Toast.makeText(v.getContext(), "heyyyyyyy"+text, Toast.LENGTH_SHORT).show();
             }
             listenerRef.get().onPositionClicked(getAdapterPosition());
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            listenerRef.get().textChanged(getAdapterPosition());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
         }
     }
 
@@ -61,6 +77,7 @@ public class BCAdapter extends RecyclerView.Adapter<BCAdapter.BlockViewHolder> {
     public BlockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View viewItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.block_cell, parent, false);
+        
         return new BlockViewHolder(viewItem,clickListener);
     }
 
@@ -72,7 +89,13 @@ public class BCAdapter extends RecyclerView.Adapter<BCAdapter.BlockViewHolder> {
         holder.data.setText(block.getData());
         holder.hash.setText(block.getHash());
         holder.prev.setText(block.getPrev());
-        holder.viewBlock.setBackgroundColor(Color.rgb(204,255,204));
+        if(block.isMinedStatus()) {
+            holder.viewBlock.setBackgroundColor(Color.rgb(204, 255, 204));
+        }
+        else {
+            holder.viewBlock.setBackgroundColor(Color.rgb(255, 204, 204));
+        }
+        holder.data.setTag(position);
     }
 
     @Override

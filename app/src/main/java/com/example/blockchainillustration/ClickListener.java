@@ -1,5 +1,8 @@
 package com.example.blockchainillustration;
 
-public interface ClickListener {
+import android.text.Editable;
+
+public interface ClickListener  {
     void onPositionClicked(int position);
+    void textChanged(int position);
 }

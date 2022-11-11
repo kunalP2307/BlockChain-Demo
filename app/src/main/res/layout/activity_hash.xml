@@ -7,7 +7,7 @@
     tools:context=".HashActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_block_cell_new"
+        android:id="@+id/layout_block_cell_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

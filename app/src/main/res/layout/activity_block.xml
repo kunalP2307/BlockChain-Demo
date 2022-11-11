@@ -8,7 +8,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_block_cell_new"
+        android:id="@+id/layout_block_cell_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/edit_text_block_block_no_cell"
+            android:id="@+id/edit_text_block_no_block"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <EditText
-            android:id="@+id/edit_text_block_nonce_cell"
+            android:id="@+id/edit_text_nonce_block"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <EditText
-            android:id="@+id/edit_text_block_data_cell"
+            android:id="@+id/edit_text_data_block"
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_marginStart="12dp"
@@ -107,7 +107,7 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_block_block_no_cell" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_block_no_block" />
 
         <TextView
             android:id="@+id/textView5"
@@ -120,7 +120,7 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_block_nonce_cell" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_nonce_block" />
 
         <TextView
             android:id="@+id/prev"
@@ -133,10 +133,10 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_block_data_cell" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_data_block" />
 
         <TextView
-            android:id="@+id/text_area_block_hash_cell"
+            android:id="@+id/text_area_hash_block_5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -196,6 +196,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_block_cell_new" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_block_cell_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

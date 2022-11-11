@@ -27,10 +27,9 @@ public class Miner {
         return block;
     }
 
-    public static Block mineBlockWithPrev(Block block){
+    public static Block mineBlockWithPrev(Block block,String prev){
         String data = block.getData();
         int blockNo = block.getBlockNo();
-        String prev = block.getPrev();
         String hash = "";
         int nonce = 0;
 

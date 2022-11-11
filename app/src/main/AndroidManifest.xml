@@ -13,6 +13,13 @@
         android:theme="@style/Theme.BlockchainIllustration"
         tools:targetApi="31">
         <activity
+            android:name=".NewBlockChainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".BlockChainActivity"
             android:exported="false">
             <meta-data

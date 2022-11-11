@@ -5,12 +5,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blockchainillustration.BlockchainUtility.Block;
 import com.example.blockchainillustration.BlockchainUtility.Miner;
@@ -23,7 +22,6 @@ public class BlockChainActivity extends AppCompatActivity {
     private BCAdapter bcAdapter;
     private List<Block> blockList = new ArrayList<>();
     private final static int chainSize = 6;
-    private View view;
     String TAG = "BlockChainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,32 +34,54 @@ public class BlockChainActivity extends AppCompatActivity {
             public void onPositionClicked(int position) {
                 View view = recyclerView.getChildAt(position);
                 if(view != null){
-                    EditText editTextBlockNo,editTextData,editTextNonce;
-                    TextView textViewPrev,textViewHash;
+                    String prev = "0000000000000000000000000000000000000000000000000000000000000000";
+                    Block block = blockList.get(position);
+                    String data = block.getData();
+                    if(position != 0)
+                        prev = blockList.get(position-1).getHash();
 
-                    editTextBlockNo = findViewById(R.id.edit_text_block_block_no_cell);
-                    editTextData = findViewById(R.id.edit_text_block_data_cell);
-                    editTextNonce = findViewById(R.id.edit_text_block_nonce_cell);
-                    textViewPrev = findViewById(R.id.text_area_block_prev_cell);
-                    textViewHash = findViewById(R.id.text_area_block_hash_cell);
+                    Block minedBLock = Miner.mineBlockWithPrev(block,prev);
 
-                    Block block = new Block();
-                    block.setBlockNo(Integer.parseInt(editTextBlockNo.getText().toString()));
-                    block.setData(editTextData.getText().toString());
-                    block.setPrev(editTextNonce.getText().toString());
-                    block.setPrev(textViewPrev.getText().toString());
+                    blockList.get(position).setData(data);
+                    blockList.get(position).setPrev(prev);
+                    blockList.get(position).setNonce(minedBLock.getNonce());
+                    blockList.get(position).setHash(minedBLock.getHash());
+                    blockList.get(position).setMinedStatus(true);
+                    bcAdapter.notifyDataSetChanged();
 
-                    Block minedBLock = Miner.mineBlockWithPrev(block);
+                }
+            }
 
-                    textViewHash.setText(minedBLock.getHash());
-                    editTextNonce.setText(Integer.toString(minedBLock.getNonce()));
+            @Override
+            public void textChanged(int position) {
+                /*Toast.makeText(BlockChainActivity.this, "changed", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "textChanged: ");*/
+                //Toast.makeText(BlockChainActivity.this, position, Toast.LENGTH_SHORT).show();
 
-                    //alertNextBlocs(blockNo++);
-                    recyclerView = findViewById(R.id.recyclerView);
-                    view = recyclerView.getChildAt(position + 1);
-                    if(view != null){
-                        View viewBlock = view.findViewById(R.id.layout_block_cell_new);
-                        viewBlock.setBackgroundColor(Color.rgb(255,204,204));
+                View view = recyclerView.getChildAt(position);
+                if(view != null){
+                    EditText editTextData;
+                    editTextData = view.findViewById(R.id.edit_text_data_block);
+                    String data = editTextData.getText().toString();
+                    if(!data.equals("")){
+                        Toast.makeText(BlockChainActivity.this, data, Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "textChanged: data found");
+                        blockList.get(position).setData(data);
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                bcAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        for(int i=position; i<blockList.size(); i++) {
+                            blockList.get(i).setMinedStatus(false);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bcAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -79,12 +99,12 @@ public class BlockChainActivity extends AppCompatActivity {
     private void prepareDate() {
         String prev = "0000000000000000000000000000000000000000000000000000000000000000";
         Log.d(TAG, ":prepareDate ");
-        for (int i = 1; i <= chainSize; i++) {
+        for (int i = 0; i < chainSize; i++) {
             Block block = new Block();
             block.setBlockNo(i);
             block.setData("");
             block.setPrev(prev);
-            Block minedBlock = Miner.mineBlockWithPrev(block);
+            Block minedBlock = Miner.mineBlockWithPrev(block,prev);
             block.setHash(minedBlock.getHash());
             block.setPrev(prev);
             block.setNonce(minedBlock.getNonce());
@@ -94,37 +114,37 @@ public class BlockChainActivity extends AppCompatActivity {
         //bcAdapter.notifyDataSetChanged();
     }
 
-    private void mineBlock(int blockNo){
-        EditText editTextBlockNo,editTextData,editTextNonce;
-        TextView textViewPrev,textViewHash;
-        View view  = recyclerView.getChildAt(blockNo);
-
-        editTextBlockNo = findViewById(R.id.edit_text_block_block_no_cell);
-        editTextData = findViewById(R.id.edit_text_block_data_cell);
-        editTextNonce = findViewById(R.id.edit_text_block_nonce_cell);
-        textViewPrev = findViewById(R.id.text_area_block_prev_cell);
-        textViewHash = findViewById(R.id.text_area_block_hash_cell);
-
-
-        Block block = new Block();
-        block.setBlockNo(Integer.parseInt(editTextBlockNo.getText().toString()));
-        block.setData(editTextData.getText().toString());
-        block.setPrev(editTextNonce.getText().toString());
-        block.setPrev(textViewPrev.getText().toString());
-
-        Block minedBLock = Miner.mineBlockWithPrev(block);
-
-        textViewHash.setText(minedBLock.getHash());
-        editTextNonce.setText(Integer.toString(minedBLock.getNonce()));
-
-        //alertNextBlocs(blockNo++);
-        recyclerView = findViewById(R.id.recyclerView);
-        view = recyclerView.getChildAt(blockNo + 1);
-        if(view != null){
-            View viewBlock = view.findViewById(R.id.layout_block_cell_new);
-            viewBlock.setBackgroundColor(Color.rgb(255,204,204));
-        }
-    }
+//    private void mineBlock(int blockNo){
+//        EditText editTextBlockNo,editTextData,editTextNonce;
+//        TextView textViewPrev,textViewHash;
+//        View view  = recyclerView.getChildAt(blockNo);
+//
+//        editTextBlockNo = findViewById(R.id.edit_text_block_block_no_cell);
+//        editTextData = findViewById(R.id.edit_text_block_data_cell);
+//        editTextNonce = findViewById(R.id.edit_text_block_nonce_cell);
+//        textViewPrev = findViewById(R.id.text_area_block_prev_cell);
+//        textViewHash = findViewById(R.id.text_area_block_hash_cell);
+//
+//
+//        Block block = new Block();
+//        block.setBlockNo(Integer.parseInt(editTextBlockNo.getText().toString()));
+//        block.setData(editTextData.getText().toString());
+//        block.setPrev(editTextNonce.getText().toString());
+//        block.setPrev(textViewPrev.getText().toString());
+//
+//        //Block minedBLock = Miner.mineBlockWithPrev(block);
+//
+//        //textViewHash.setText(minedBLock.getHash());
+//        editTextNonce.setText(Integer.toString(minedBLock.getNonce()));
+//
+//        //alertNextBlocs(blockNo++);
+//        recyclerView = findViewById(R.id.recyclerView);
+//        view = recyclerView.getChildAt(blockNo + 1);
+//        if(view != null){
+//            View viewBlock = view.findViewById(R.id.layout_block_cell_new);
+//            viewBlock.setBackgroundColor(Color.rgb(255,204,204));
+//        }
+//    }
 
     private void alertNextBlocs(int blockNo){
         for(int i=blockNo; i<chainSize; i++){

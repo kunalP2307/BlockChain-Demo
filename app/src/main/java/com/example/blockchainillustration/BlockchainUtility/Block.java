@@ -1,14 +1,18 @@
 package com.example.blockchainillustration.BlockchainUtility;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+
 public class Block {
     private int blockNo;
     private int nonce;
+    private boolean minedStatus;
     private String data;
     private String hash;
     private String prev;
 
     public Block(){
-
+        minedStatus = true;
     }
 
     public Block(int blockNo,String data){
@@ -61,6 +65,14 @@ public class Block {
 
     public void setPrev(String prev) {
         this.prev = prev;
+    }
+
+    public boolean isMinedStatus() {
+        return minedStatus;
+    }
+
+    public void setMinedStatus(boolean minedStatus) {
+        this.minedStatus = minedStatus;
     }
 
 
