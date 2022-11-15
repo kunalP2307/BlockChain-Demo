@@ -3,7 +3,9 @@ package com.example.blockchainillustration.BlockchainUtility;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-public class Block {
+import java.io.Serializable;
+
+public class Block implements Serializable {
     private int blockNo;
     private int nonce;
     private boolean minedStatus;

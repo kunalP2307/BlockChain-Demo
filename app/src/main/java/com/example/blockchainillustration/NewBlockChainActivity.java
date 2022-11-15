@@ -10,24 +10,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blockchainillustration.BlockchainUtility.Block;
 import com.example.blockchainillustration.BlockchainUtility.Miner;
 import com.example.blockchainillustration.BlockchainUtility.SHACalculator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewBlockChainActivity extends AppCompatActivity implements TextWatcher {
     private static final int CHAIN_SIZE = 5;
     private static final String GENESIS_PREV_HASH = "0000000000000000000000000000000000000000000000000000000000000000";
-    Button buttonMine[];
+    Button buttonMine[],buttonStore;
     EditText editTextBlockNo[],editTextNonce[],editTextData[];
     TextView textViewPrev[],textViewtHash[];
     View viewBlock[];
+    DBController dbController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_block_chain);
-
+        dbController = new DBController(this);
         bindComponents();
         initBlockChain();
     }
@@ -77,7 +83,15 @@ public class NewBlockChainActivity extends AppCompatActivity implements TextWatc
         viewBlock[3] = findViewById(R.id.layout_block_cell_4);
         viewBlock[4] = findViewById(R.id.layout_block_cell_5);
 
+        buttonStore = findViewById(R.id.button_store);
+        buttonStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initBlockLit();
+            }
 
+
+        });
         for(int i=0; i<5; i++){
             int finalI = i;
             editTextNonce[i].setText(""+i);
@@ -89,6 +103,29 @@ public class NewBlockChainActivity extends AppCompatActivity implements TextWatc
             });
             editTextData[i].addTextChangedListener(this);
         }
+    }
+
+    private void initBlockLit() {
+        List<Block> list = new ArrayList<>();
+
+        for(int i=0;i<CHAIN_SIZE; i++){
+            Block block = new Block();
+            int no = Integer.parseInt(editTextBlockNo[i].getText().toString());
+            int nonce = Integer.parseInt((editTextNonce[i].getText().toString()));
+            String data = editTextData[i].getText().toString();
+            String hash = textViewtHash[i].getText().toString();
+            String prev = textViewtHash[i].getText().toString();
+
+            block.setBlockNo(no);
+            block.setNonce(nonce);
+            block.setData(data);
+            block.setHash(hash);
+            block.setPrev(prev);
+            list.add(block);
+        }
+
+        int updateC =  dbController.reWriteChain(list);
+        Toast.makeText(this, ""+updateC, Toast.LENGTH_SHORT).show();
     }
 
     private void initBlockChain() {
